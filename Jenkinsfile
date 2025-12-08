@@ -7,7 +7,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 sh 'echo cloning repo'
-                url:'https://github.com/saivarun0509/ansible-task.git' 
+                sh 'https://github.com/saivarun0509/ansible-task.git' 
             }
         }
         
