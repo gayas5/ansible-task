@@ -3,8 +3,9 @@ provider "aws" {
 }
 
 variable "key_name" {
-  type    = string
-  default = "my-key"
+  default = "ansible"
+}
+
 }
 
 variable "jenkins_allowed_cidr" {
