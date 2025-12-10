@@ -9,8 +9,8 @@ resource "aws_instance" "backend" {
   ami                    = "ami-02b8269d5e85954ef"  
   instance_type          = "t3.micro"
   key_name               = "mumbai"
-  vpc_security_group_ids = ["sg-00318350619b1ae2b"]
-  subnet_id              = "subnet-0d0eb30adae1d3565"
+  vpc_security_group_ids = ["sg-01cfc6e86d017a57b"]
+  subnet_id              = "subnet-0491ca8b1885b7e5e"
 
   tags = {
     Name = "u21.local"
@@ -29,8 +29,8 @@ resource "aws_instance" "frontend" {
   ami                    = "ami-0d176f79571d18a8f"   # Amazon Linux
   instance_type          = "t3.micro"
   key_name               = "mumbai"
-  vpc_security_group_ids = ["sg-00318350619b1ae2b"]
-  subnet_id              = "subnet-024f6df68d098d6ac"
+  vpc_security_group_ids = ["sg-01cfc6e86d017a57b"]
+  subnet_id              = "subnet-04f01a3277f9dd175"
 
   tags = {
     Name = "c8.local"
