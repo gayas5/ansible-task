@@ -6,8 +6,6 @@ variable "key_name" {
   default = "ansible"
 }
 
-}
-
 variable "jenkins_allowed_cidr" {
   type    = string
   default = "0.0.0.0/0"
