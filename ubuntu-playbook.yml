@@ -13,26 +13,27 @@
 
     - name: Download Netdata installation script
       get_url:
-        url: "https://my-netdata.io/kickstart.sh"
-        dest: "/tmp/netdata-install.sh"
+        url: https://my-netdata.io/kickstart.sh
+        dest: /tmp/netdata-install.sh
         mode: '0755'
 
     - name: Run Netdata installer (non-interactive)
-      command: "bash /tmp/netdata-install.sh --non-interactive"
+      command: bash /tmp/netdata-install.sh --non-interactive
       args:
-        creates: /etc/netdata/netdata.conf
+        creates: /usr/sbin/netdata
 
-    - name: Ensure Netdata service is running
+    - name: Ensure Netdata service is started
       service:
         name: netdata
         state: started
         enabled: yes
 
-    - name: Update netdata.conf to listen on 0.0.0.0
+    - name: Ensure Netdata listens on all interfaces
       lineinfile:
         path: /etc/netdata/netdata.conf
-        regexp: '^#?bind socket to IP ='
-        line: 'bind socket to IP = 0.0.0.0'
+        regexp: '^#?\s*bind to\s*='
+        line: 'bind to = 0.0.0.0'
+        insertafter: '^\[web\]'
       notify: restart netdata
 
   handlers:
