@@ -1,37 +1,43 @@
 ---
 - hosts: backend
-  become: true
+  become: yes
+
   tasks:
-    - name: Install Netdata
-      become: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - wget
+        state: present
+        update_cache: yes
+
+    - name: Download Netdata installation script
       get_url:
         url: "https://my-netdata.io/kickstart.sh"
         dest: "/tmp/netdata-install.sh"
         mode: 0755
 
-    - name: Execute Netdata installation script
-      become: yes
-      command: "/tmp/netdata-install.sh"
+    - name: Run Netdata installer (non-interactive)
+      command: "bash /tmp/netdata-install.sh --non-interactive"
+      args:
+        creates: /etc/netdata/netdata.conf
 
-    - name: Start Netdata service
-      become: yes
+    - name: Ensure Netdata service is running
       service:
         name: netdata
         state: started
         enabled: yes
 
-    - name: Update netdata.conf with the desired bind IP
-      become: yes
+    - name: Update netdata.conf to listen on 0.0.0.0
       lineinfile:
         path: /etc/netdata/netdata.conf
-        regexp: '^bind socket to IP ='
+        regexp: '^#?bind socket to IP ='
         line: 'bind socket to IP = 0.0.0.0'
-      notify:
-        - restart netdata
+      notify: restart netdata
 
   handlers:
     - name: restart netdata
-      become: yes
       service:
         name: netdata
         state: restarted
